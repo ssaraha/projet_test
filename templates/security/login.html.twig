@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Log in!{% endblock %}
+
+{% block body %}
+<form method="post">
+    {% if error %}
+        <div class="alert alert-danger text-center">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
+
+    {% if app.user %}
+        <div class="mb-3">
+            You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
+        </div>
+    {% endif %}
+
+    <div class="row mt-4">
+        <div class="col-md-6 mx-auto">
+            <h1 class="h3 mb-3 font-weight-normal text-muted text-center">Please sign in</h1>
+            <div class="form-group">
+                <label class="font-weight-bold text-muted" for="email">Email</label>
+                <input type="email" value="{{ last_username }}" name="email" id="email" class="form-control" autocomplete="email" required autofocus>
+            </div>
+            <div class="form-group">
+                <label class="font-weight-bold text-muted" for="password">Password</label>
+                <input type="password" name="password" id="password" class="form-control" autocomplete="current-password" required>
+            </div>
+
+            <input type="hidden" name="_csrf_token"
+                   value="{{ csrf_token('authenticate') }}"
+            >
+
+            <div class="d-flex justify-content-between">
+                <div class="form-group">
+                    <div class="form-check">
+                        <input id="remember_me" name="_remember_me" class="form-check-input" type="checkbox"></input>
+                        <label for="remember_me" class="form-check-label">Remember me</label>
+                    </div>
+
+                </div>
+                <a href="#">Mot de passe oublié?</a>
+            </div>
+
+            <button class="btn btn-lg btn-primary btn-block" type="submit">
+                Se connecter
+            </button>
+            <p class="mt-5 text-muted text-center">Pas encore un compte? <a href="#">S'enregistrer</a></p>
+        </div>
+    </div>
+</form>
+{% endblock %}
