@@ -3,12 +3,5 @@
 {% block title 'Page d\'accueil' %}
 
 {% block body %}
-	<ul>
-		{% if app.user %}
-			<li><a href="{{ path('app_logout')}}">Logout</a></li>
-		{% else %}
-			<li><a href="{{ path("app_login") }}">Login</a></li>
-			<li><a href="">S'inscrire</a></li>
-		{% endif %}
-	</ul>
+	<h1>Bienvenue</h1>
 {% endblock %}
