@@ -7,6 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 use App\Entity\Traits\Timestampable;
 
 /**
@@ -29,16 +31,20 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message = "Veuillez entrez votre nom")
      */
     private $firstname;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\NotBlank(message = "Veuillez entrez votre nom")
      */
     private $lastname;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Assert\NotBlank(message = "Veuillez entrez votre adressse email")
+     * @Assert\Email(message = "Veuillez entrez une adresse email valide")
      */
     private $email;
 
@@ -50,6 +56,7 @@ class User implements UserInterface
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
+     * @Assert\Length(min=6, minMessage="Mot de passe doit etre supérieur à 6 caracteres")
      */
     private $password;
 
