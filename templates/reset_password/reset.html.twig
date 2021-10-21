@@ -4,12 +4,19 @@
 
 {% block body %}
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-6 mx-auto">
             <h1 class="text-muted text-center">Réinitialisez votre mot de passe</h1>
 
             {{ form_start(resetForm) }}
                 {{ form_row(resetForm.plainPassword) }}
-                <button type="submit" class="btn btn-primary">Reset password</button>
+                <div class="row">
+                    <div class="col-md-6">
+                        <button type="submit" class="btn btn-primary">Reset password</button>
+                    </div>
+                    <div class="col-md-6">
+                        <a class="btn btn-outline-secondary btn-block" href="{{ path('app_login') }}">Annuler</a>
+                    </div>
+                </div>
             {{ form_end(resetForm) }}
         </div>
     </div>

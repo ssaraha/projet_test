@@ -10,14 +10,12 @@
         <div class="col-md-6 mx-auto">
             <h1 class="mt-3 text-center text-muted">Réinitialisation de mot de passe.</h1>
 
-            {{ form_start(requestForm) }}
+            <p class="mt-3 mb-3">
+                Entrez votre adresse e-mail et nous vous enverrons un
+                lien pour réinitialiser votre mot de passe.
+            </p>
+            {{ form_start(requestForm, {'attr': {'novalidate': 'novalidate'}}) }}
                 {{ form_row(requestForm.email) }}
-                <div>
-                    <p class="mt-3 mb-5">
-                        Entrez votre adresse e-mail et nous vous enverrons un
-                        lien pour réinitialiser votre mot de passe.
-                    </small>
-                </div>
                 <div class="row">
                     <div class="col">
                         <button type="submit" class="btn btn-primary btn-block ">Send password reset email</button>
