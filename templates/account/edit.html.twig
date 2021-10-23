@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Modification de profile' %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-6 mx-auto text-muted">
+            <h1 class="my-3 text-center">Modification de profile</h1>
+            {{ form_start(form) }}
+                <div class="row">
+                    <div class="col-md-6">
+                        {{ form_widget(form.firstname) }}
+                    </div>
+                    <div class="col-md-6">
+                        {{ form_widget(form.lastname) }}
+                    </div>
+                </div>
+                {{ form_rest(form) }}
+                <div class="row">
+                    <div class="col-md-6">
+                        <button type="submit" class="btn btn-primary btn-block">Appliquer les changement</button>
+                    </div>
+                    <div class="col-md-6">
+                        <a class="btn btn-outline-secondary btn-block" href="{{ path('app_account') }}">Annuler</a>
+                    </div>
+                </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}

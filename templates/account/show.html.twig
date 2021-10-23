@@ -6,12 +6,13 @@
     <div class="row">
         <div class="col-md-6 mx-auto text-center text-muted">
             <h1 class="my-3">Profile</h1>
-            <img class="rounded-circle" src="https://www.gravatar.com/avatar/.../s?="$size>
+            <img class="rounded-circle shadow" src="{{app.user.gravatar()}}">
              
 
             <p class="mt-5 lead">{{ app.user.email}}</p>
             <h3>{{ app.user.fullName}}</h3>
-            <a href="">Editer</a> | <a href="">Changer mot de passe</a>
+            <small><strong>Utilisateur crée le : </strong>{{ app.user.createdAt | ago }}</small><br />
+            <a href="{{ path('app_account_edit')}}">Editer</a> | <a href="#">Changer mot de passe</a>
         </div>
     </div>
 {% endblock %}
