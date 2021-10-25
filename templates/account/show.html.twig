@@ -12,7 +12,7 @@
             <p class="mt-5 lead">{{ app.user.email}}</p>
             <h3>{{ app.user.fullName}}</h3>
             <small><strong>Utilisateur crée le : </strong>{{ app.user.createdAt | ago }}</small><br />
-            <a href="{{ path('app_account_edit')}}">Editer</a> | <a href="#">Changer mot de passe</a>
+            <a href="{{ path('app_account_edit')}}">Editer</a> | <a href="{{ path('app_account_change_password') }}">Changer mot de passe</a>
         </div>
     </div>
 {% endblock %}
