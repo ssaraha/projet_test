@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+	<div class="row">
+		<div class="col-md-6 mx-auto">
+			<h1 class="text-danger">Access forbidden</h1>
+			You cannot access to this page.
+			<a href="{{ path('home_page') }}">Go back</a> to home
+		</div>
+	</div>
+{% endblock %}
