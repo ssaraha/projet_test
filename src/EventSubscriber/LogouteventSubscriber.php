@@ -35,6 +35,7 @@ class LogouteventSubscriber implements EventSubscriberInterface
     {
         //dd($event->getRequest()->getSession());
         //$event->getRequest()->getSession()->getFlashBag('success', 'Vous êtes déconnectés');
+        //get User = $event->getToken()->getUser()
 
         $this->flashBag->add(
                 'success',
