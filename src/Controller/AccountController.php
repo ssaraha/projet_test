@@ -24,9 +24,11 @@ class AccountController extends AbstractController
      */
     public function index(): Response
     {
-        /*if( !$this->getUser() )
+        /*if( !$this->getUser() ) //Remplacer par la configuration de l'url dans le fichier security.yaml
         {
-            $this->addFlash('error', 'Vous avez besoin de se connectez');
+            $this->addFlash('error', 'Vous avez besoin de se connectez'); 
+            Ou utilisé une exception au ieu de flashbag
+            throw $this->reateAccessDeniedException("Your message")
 
             return $this->redirectToRoute('app_login');
         }*/

@@ -15,7 +15,11 @@
         {% endblock %}
     </head>
     <body>
-        {% include 'partials/_nav.html.twig' %}
+        {% if is_granted('ROLE_EDITOR') %}
+            {% include 'partials/_nav_bo.html.twig' %}
+        {% else %}
+            {% include 'partials/_nav.html.twig' %}
+        {% endif %}
         {% include 'partials/_flash.html.twig' %}
         <main class="container">
             {% block body %}{% endblock %}

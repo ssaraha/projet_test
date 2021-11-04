@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title  'Bienvenue dans la page des articles' %}
+
+{% block body %}
+    <div class="mt-5 row justify-content-end">
+        <div class="col-2"></div>
+        <div class="col-2">
+            <a href="{{ path('app_add_article') }}" title="Nouveau Article"><i class="fas fa-plus-circle text-success w-100" aria-hidden="true"></i></a>
+        </div>
+    </div>
+  </div>
+    {% if articles is defined %}
+        Liste des articles
+    {% else %}   
+        Articles non définies
+    {% endif %}
+{% endblock %}

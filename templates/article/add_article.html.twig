@@ -1,0 +1,6 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+	{% set title = "Nouveau article" %}
+	{% include('article/form.html.twig' with {title: title, btn_txt: "Enregistrer"}) %}
+{% endblock %}

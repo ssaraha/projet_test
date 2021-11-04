@@ -100,12 +100,20 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
     {
         $request->getSession()->getFlashBag()->add('success', $token->getuser()->getFullname().' vous  connecté avec succées');
         //Rediriger à la page qu'on tente de visiter avant la connexion
-        if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
+        if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {    
+            //Add custom code to switch redirection after login
             return new RedirectResponse($targetPath);
         }
 
         // For example : return new RedirectResponse($this->urlGenerator->generate('some_route'));
         //throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
+        
+        //switch redirect page via roles
+        $has_editor = in_array('ROLE_EDITOR', $token->getUser()->getRoles());
+        if ( $has_editor ) {
+            return new RedirectResponse($this->urlGenerator->generate('home_page_admin'));            
+        }
+
         return new RedirectResponse($this->urlGenerator->generate('home_page'));
     }
 

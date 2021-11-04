@@ -26,7 +26,17 @@ npm-debug.log
 yarn-error.log
 ###< symfony/webpack-encore-bundle ###
 
-/src/Controller/TestAccessAdminController.php
-/src/Controller/TestAutreAccessAdminController.php
-/src/Templates/test_access_admin
-/src/Templates/test_autre_access_admin
+App/Controller/TestAccessAdminController.php
+App/Controller/TestAutreAccessAdminController.php
+App/Controller/TestOtherAccessController.php
+App/Templates/test_access_admin
+App/Templates/test_autre_access_admin
+App/Templates/test_other_access
+
+/public/uploads/
+
+
+
+###> liip/imagine-bundle ###
+/public/media/cache/
+###< liip/imagine-bundle ###
