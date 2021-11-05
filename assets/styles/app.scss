@@ -35,4 +35,17 @@ body {
     font-size: 2.5em;
 }
 
+.vich-image {
+    .custom-file {
+        @extend .mb-4;
+    }
+
+    img {
+        @extend .shadow;
+        @extend .rounded;
+        @extend .img-thumbnail;
+        @extend .mb-2;
+    }
+}
+
 

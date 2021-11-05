@@ -21,7 +21,7 @@ class ArticleTypeType extends AbstractType
             ->add('imageFile', VichImageType::class, [
                 'required' => false,
                 'allow_delete' => false,
-                'delete_label' => '...',
+                'delete_label' => 'Supprimer',
                 //'download_label' => 'Télécharger',
                 'download_uri' => false,//Pour enkever label download
                 //'image_uri' => true,
