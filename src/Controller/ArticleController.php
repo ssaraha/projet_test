@@ -14,7 +14,11 @@ use App\Entity\Article;
 use App\Form\ArticleTypeType;
 use App\Repository\ArticleRepository;
 
+use App\Data\SearchData;
+use App\Form\SearchForm;
+
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 /**
  * 
  * @Route("/article")
@@ -32,9 +36,31 @@ class ArticleController extends AbstractController
     /**
      * @Route("/", name="app_article")
      */
-    public function index(): Response
+    public function index(ArticleRepository $articleRepo, PaginatorInterface $paginator,
+                          Request $request): Response
     {
-        return $this->render('article/index.html.twig');
+        $search_data = new SearchData();
+        $search_form = $this->createForm(SearchForm::class, $search_data);
+        //$datas = $articleRepo->findBy([], ['created_at' => 'DESC']);
+        //dd($datas);
+
+        //$datas = $articleRepo->listArticles();
+
+        $search_form->handleRequest($request);
+        $datas = $articleRepo->findSearch($search_data);
+        
+
+        $articles = $paginator->paginate(
+            $datas, // Requête contenant les données à paginer (ici nos articles)
+            $request->query->getInt('page', 1), // Numéro de la page en cours, passé dans l'URL, 1 si aucune page
+            3 // Nombre de résultats par page
+        );
+
+        return $this->render('article/index.html.twig',
+                [
+                    'articles' => $articles, 
+                    'search_form' => $search_form->createView()
+                ]);
     }
 
 

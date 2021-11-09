@@ -3,7 +3,10 @@
 {% block title  'Bienvenue dans la page des articles' %}
 
 {% block body %}
-    <div class="mt-5 row justify-content-end">
+    
+    {% include 'article/search.html.twig' %}
+    
+    <div class="mt-3 row justify-content-end">
         <div class="col-2"></div>
         <div class="col-2">
             <a href="{{ path('app_add_article') }}" title="Nouveau Article"><i class="fas fa-plus-circle text-success w-100" aria-hidden="true"></i></a>
@@ -11,7 +14,37 @@
     </div>
   </div>
     {% if articles is defined %}
-        Liste des articles
+        <p class="h3 box-title ">{{ pluralizes(articles|length, 'Liste article') }} : {{ articles|length }}</p>
+        
+        {% if articles|length > 0 %}
+            {% for row in articles|batch(3) %}
+
+                <div class="row">
+                    {% for article in row %}
+                        <div class="col-md-4 mb-4">
+                            <article class="bg-white pb-1 rounded shadow article">
+                                <div class="mw-100 overflow-hidden">
+                                    <img class="w-100 mb-3 rounded-top" 
+                                        src="{{ (article.image ? vich_uploader_asset(article) : asset('image/profile.png')) | imagine_filter('squared_thumbnail_small') }}" 
+                                        alt="{{ article.designation }}">
+                                </div>
+                                <h5 class="pl-3">{{ article.designation}}</h5>
+                                <p class="pl-3 mb-1 text-primary font-weight-bold">Ar {{ article.unitPrice}}</p>
+                                <p class="pl-3 text-muted font-weight-bold  ">
+                                    <small>{{ article.createdAt | ago }}</small>
+                                </p>
+                                
+                            </article>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="row">
+                    <div class="mt-4">
+                        {{ knp_pagination_render(articles) }}
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}        
     {% else %}   
         Articles non définies
     {% endif %}
