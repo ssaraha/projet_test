@@ -86,9 +86,20 @@ class Article
      */
     private $promos;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $details;
+
+    /**
+     * @ORM\OneToMany(targetEntity=SaleDetail::class, mappedBy="article")
+     */
+    private $saleDetails;
+
     public function __construct()
     {
         $this->promos = new ArrayCollection();
+        $this->saleDetails = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -234,4 +245,47 @@ class Article
 
         return $this;
     }
+
+    public function getDetails(): ?string
+    {
+        return $this->details;
+    }
+
+    public function setDetails(?string $details): self
+    {
+        $this->details = $details;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|SaleDetail[]
+     */
+    public function getSaleDetails(): Collection
+    {
+        return $this->saleDetails;
+    }
+
+    public function addSaleDetail(SaleDetail $saleDetail): self
+    {
+        if (!$this->saleDetails->contains($saleDetail)) {
+            $this->saleDetails[] = $saleDetail;
+            $saleDetail->setArticle($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSaleDetail(SaleDetail $saleDetail): self
+    {
+        if ($this->saleDetails->removeElement($saleDetail)) {
+            // set the owning side to null (unless already changed)
+            if ($saleDetail->getArticle() === $this) {
+                $saleDetail->setArticle(null);
+            }
+        }
+
+        return $this;
+    }
+
 }

@@ -12,13 +12,14 @@
 
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
+            {{ encore_entry_script_tags('card') }}
         {% endblock %}
     </head>
     <body>
         {% if is_granted('ROLE_EDITOR') %}
             {% include 'partials/_nav_bo.html.twig' %}
         {% else %}
-            {% include 'partials/_nav.html.twig' %}
+            {% include 'partials/_nav.html.twig' with {'type_article': type_articles} %}
         {% endif %}
         {% include 'partials/_flash.html.twig' %}
         <main class="container">

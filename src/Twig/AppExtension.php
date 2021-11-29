@@ -6,6 +6,7 @@ use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
 
+use App\Entity\Article;
 class AppExtension extends AbstractExtension
 {
     public function getFilters(): array
@@ -22,6 +23,9 @@ class AppExtension extends AbstractExtension
     {
         return [
             new TwigFunction('pluralizes', [$this, 'pluralize']),
+            new TwigFunction('checkPromos', [$this, 'checkPromotion']),
+            new TwigFunction('promotionPrice', [$this, 'promotionPrice']),
+            new TwigFunction('calculateTotalPrice', [$this, 'calculateTotalPrice']),
         ];
     }
 
@@ -29,5 +33,31 @@ class AppExtension extends AbstractExtension
     {
 
         return $nb_article > 1 ? $title.'s' : $title;
+    }
+
+    public function checkPromotion(Article $article, $promos)
+    {
+        foreach ( $promos as $promo) {
+            if ( $article === $promo->getArticle() ) {
+
+                return $promo->getvalue();
+            }
+        }
+
+        return null;
+    }
+
+    public function promotionPrice(Article $article, $promos)
+    {
+        foreach ( $promos as $promo) {
+            if ( $article === $promo->getArticle() ) {
+
+               $value = ( $article->getUnitPrice() * $promo->getValue() ) / 100;
+               
+               return $article->getUnitPrice() - $value;
+            }
+        }
+
+        return null;
     }
 }

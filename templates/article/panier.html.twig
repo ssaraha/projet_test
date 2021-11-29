@@ -1,0 +1,138 @@
+{% extends 'base.html.twig' %}
+
+{% block title  'Mon panier' %}
+
+{% block body %}
+	{% if panierData|length > 0 %}
+	<h1 class="text-success">Votre  panier</h1>
+	<form method="POST" action="{{ path('app_panier_validate') }}">
+		<table class="table table-hover">
+		  <thead class="thead-dark">
+		    <tr>
+		      <th>
+		      	<div class="custom-control custom-checkbox">
+				  <input type="checkbox" class="custom-control-input" id="chk_delete_all">
+				  <label class="custom-control-label" for="chk_delete_all"></label>
+
+				  <button type="button" style="display:none;" 
+				  		  class="btn btn-danger btn_delete_all"
+				  		  title="Supprimer tout">
+				  		  <i class="fas fa-trash"></i>
+				  </button>
+				</div>
+		      </th>
+		      <th scope="col">Désignation</th>
+		      <th scope="col">Prix unitaire</th>
+		      <th scope="col">Promotion en % </th>
+		      <th scope="col">Prix en promotion </th>
+		      <th scope="col">Quantité</th>
+		      <th scope="col">Prix</th>
+		      <th></th>
+		    </tr>
+		  </thead>
+		  <tbody>	  		
+		  		{% set total = 0 %}
+		    	{% for data in panierData %}
+					    <tr>
+					      <td>
+					      	<div class="custom-control custom-checkbox">
+							  <input type="checkbox"
+							  	class="custom-control-input delete_row" id="delete_{{data.article.id}}">
+							  <label class="custom-control-label" for="delete_{{data.article.id}}"></label>
+							</div>
+					      </td>
+					      <td class="font-weight-bold txt_article_{{ data.article.id }}">
+					      	<input style="display:none;"
+					      		   id="txt_article_{{ data.article.id}}"
+					      		   type="text"
+					      	       name="txt_article_id_{{ data.article.id }}" 
+					      	       value="{{ data.article.id }}" />
+					      	{{ data.article.designation }}
+					      </td>
+					      <td>{{ data.article.unitPrice }}</td>
+					      <td>
+					      	{{ checkPromos(data.article, promos) ? 
+					      	   checkPromos(data.article, promos) : 0
+					      	}}
+					      </td>
+					      <td>
+					      	{{ promotionPrice(data.article, promos) ? 
+					      	   promotionPrice(data.article, promos) : 
+					      	   "Pas de promotion" 
+					      	}}
+					      </td>
+					      <td class="txt_article_quantity">
+					      	<p class="p_quantity">{{ data.quantity }}</p> 
+
+					      	<input style="display: none;"
+						      	type="text" 
+						      	name="txt_article_quantity_{{ data.article.id }}"
+						      	value="{{ data.quantity }}" 
+						      	id="txt_article_quantity_{{ data.article.id }}" 
+						      />
+
+						      <input style="display: none;"
+					      		class=""
+					      		name=""
+					      		type="text"
+					      		value="{{ data.article.id }}" 
+					      		id="txt_article_{{ data.article.id }}" />
+
+					      </td>
+					      <td class="txt_article_price_{{ data.article.id }}">
+					      	<p id="p_price_{{ data.article.id }}">
+						      	{{ checkPromos(data.article, promos) ? 
+						      		promotionPrice(data.article, promos) * data.quantity :
+						      		data.article.unitPrice * data.quantity  
+						      	}}
+					      	</p>
+					      	{% set total = total + (checkPromos(data.article, promos) ? 
+					      					promotionPrice(data.article, promos) * data.quantity :
+					      					data.article.unitPrice * data.quantity) %}
+
+					      	<input style="display:none;" 
+					      		id="txt_price_article_{{ data.article.id }}"
+					      		class="txt_price_article" 
+					      		type="text" 
+					      		name="txt_price_{{ data.article.id }}" 
+					      		value="{{ checkPromos(data.article, promos) ? 
+					      		promotionPrice(data.article, promos) * data.quantity :
+					      		data.article.unitPrice * data.quantity  }}" />
+					      </td>
+					 	  <td>
+					 	  		<a href="{{ path('app_remove_article_card', {'id': data.article.id}) }}"
+					 	  			class="btn btn-danger" title="Supprimer cette article">
+				    				<i class="fas fa-trash"></i>
+
+				    			</a>
+					 	  </td>
+					    </tr>
+				    
+		    	{% endfor %}
+		    	<tfoot>
+			    	<tr>
+			    		<td class="font-weight-bold text-right" colspan="5">Total en ariary </td>
+			    		<td >
+			    			<p class="p_total">
+			    				{{ total|format_number({rounding_mode: 'floor'}) }}
+			    			</p>
+			    			<input style="display: none;" id="txt_total" type="text" name="txt_total" value="{{ total }}" />
+			    		</td>
+			    		<td>
+			    			
+			    		</td>
+			    	</tr>
+		    	</tfoot>
+		  </tbody>
+		</table>
+		<button type="submit" class="btn btn-success">Valider</button>
+	</form>
+	{% else %}
+		<h2 class="text-success">Votre panier est encore vide</h2>
+	{% endif %}
+	<div class="row">
+		<div class="col-md-3">
+			<a href="#" class="btn btn-success">Ajouter un autre article</a>
+		</div>
+	</div>
+{% endblock %}

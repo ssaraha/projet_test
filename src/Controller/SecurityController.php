@@ -7,13 +7,16 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
+use App\Repository\ArticleTypeRepository;
+
 class SecurityController extends AbstractController
 {
     /**
      * @Route("/login", name="app_login")
      */
-    public function login(AuthenticationUtils $authenticationUtils): Response
+    public function login(AuthenticationUtils $authenticationUtils, ArticleTypeRepository $artTypeRepo): Response
     {
+        $type_articles = $artTypeRepo->findAll();
         if ($this->getUser()) {
             $this->addFlash('error', $this->getUser()->getFullname() . '  Déjà connecté');
              return $this->redirectToRoute('home_page');
@@ -24,7 +27,11 @@ class SecurityController extends AbstractController
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
 
-        return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
+        return $this->render('security/login.html.twig', [
+                    'last_username' => $lastUsername,
+                    'error' => $error,
+                    'type_articles' => $type_articles
+                ]);
     }
 
     /**

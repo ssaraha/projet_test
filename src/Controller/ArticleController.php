@@ -41,6 +41,7 @@ class ArticleController extends AbstractController
     {
         $search_data = new SearchData();
         $search_form = $this->createForm(SearchForm::class, $search_data);
+
         //$datas = $articleRepo->findBy([], ['created_at' => 'DESC']);
         //dd($datas);
 
@@ -123,4 +124,6 @@ class ArticleController extends AbstractController
                     'form' => $form->createView()
                 ]);
     }
+
+    
 }

@@ -1,0 +1,70 @@
+{% extends 'base.html.twig' %}
+
+{% block title  "Détail de l'article " %}
+
+{% block body %}
+	<div class="row">
+		<div class="col-md-3">
+			<div class="mw-100 overflow-hidden img-parent">
+            	{% if article.isPromo %}
+            		<div class="promo text-center">	
+            			{% for promo in promos %}
+            				{% if promo.article == article %}
+            					- {{ promo.value }}%
+            				{% endif %}
+            			{% endfor %}
+            		</div>
+            	{% endif %}
+                <img class="w-100 mb-3 rounded-top img-thumbnail" 
+                    src="{{ (article.image ? vich_uploader_asset(article) : asset('image/profile.png')) | imagine_filter('squared_thumbnail_small') }}" 
+                    alt="{{ article.designation }}">
+            </div>
+		</div>
+		<div class="col-md-9">
+			<h2 class="mt-4 font-weight-bold">{{ article.designation}}</h2>
+			<hr>
+			<h2 class="text-primary">Detail de produit </h2>
+			<p class="txt-detail">
+				<small>{{ article.details}}</small>
+			</p>
+			<hr>
+			<h2 class="text-primary">Prix</h2>
+
+			{% if checkPromos(article, promos) is not null %}
+
+				<h6>
+					<span class="text-muted">En promotion de </span> 		
+					<span class="text-primary">{{ checkPromos(article, promos) }} %</span>
+				<h6>
+				{% if promotionPrice(article, promos) is not null %}
+					<h6>
+						<span class="text-muted ">Prix de promotion:  </span> 		
+						<span class="text-primary">{{ promotionPrice(article, promos) }} %</span>
+					</h6>
+				{% endif %}
+			{% endif %}
+			<h6>
+				<small class="text-muted">Prix: </small>
+				<span class="font-weight-bold">Ar {{ article.unitPrice}}</span>
+			</h6>
+			<h6>
+				<small class="text-muted">Quantité disponible: </small>
+				<span class="font-weight-bold">{{ article.quantityAvailable}}</span>
+			</h6>
+			<hr>
+			<h2 class="text-primary">Panier</h2>
+			<form method="POST" action="{{ path('app_add_card', {'id': article.id}) }}">
+				<div class="row">
+					<div class="col-md-4">
+						<div class="form-group">
+						    <input type="number" name="quantity" class="form-control" id="quantity" placeholder="Quantité ajouté au panier">
+						</div>
+					</div>
+					<div class="col-md-3">
+						<button type="submit" class="btn bg-success text-white"><i class="fas fa-cart-plus"></i>  Ajouter au panier</button> 
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+{% endblock %}

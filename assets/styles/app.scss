@@ -58,9 +58,41 @@ body {
     transition: transform 0.3s ease-out;
 
     &:hover {
-        transform: scale(1.075);
-        overflow: hidden;
+        /*transform: scale(1.075);*/
+        /*overflow: hidden;*/
     }
 }
 
+.promo{
+    display: flex;
+    padding: 20px;
+    color: #fff;
+    background: #540077;
+    position: absolute;
+    width: 25%;
+    left: 262px;
+    height: 16%;
+    font-size: 26px;
+    padding: 5px;
+}
 
+.img-parent {
+    position: relative;
+}
+
+.btn-card {
+    right: 20px;
+    text-align: center;
+    padding-top: 8px;
+}
+.link-card {
+    text-decoration: none;
+}
+.link-card :hover {
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.txt-detail {
+    text-indent: 5%;
+}

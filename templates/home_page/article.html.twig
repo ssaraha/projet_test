@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title  'Liste des article de ' %}
+
+{% block body %}
+	{% if articles is defined %}
+        <p class="h3 box-title ">{{ pluralizes(articles|length, 'Liste article') }} : {{ articles|length }}</p>
+        
+        {% if articles|length > 0 %}
+            {% for row in articles|batch(3) %}
+
+                <div class="row">
+                    {% for article in row %}
+                        <div class="col-md-4 mb-4">
+                            <article class="bg-white pb-1 rounded shadow article">
+                                <div class="mw-100 overflow-hidden img-parent">
+                                	{% if article.isPromo %}
+                                		<div class="promo text-center">
+                                			{% for promo in promos %}
+                                				{% if promo.article == article %}
+                                					- {{ promo.value }}%
+                                				{% endif %}
+                                			{% endfor %}
+                                		</div>
+                                	{% endif %}
+                                    <img class="w-100 mb-3 rounded-top" 
+                                        src="{{ (article.image ? vich_uploader_asset(article) : asset('image/profile.png')) | imagine_filter('squared_thumbnail_small') }}" 
+                                        alt="{{ article.designation }}">
+                                </div>
+                                <h5 class="pl-3">{{ article.designation}}</h5>
+                                <p class="pl-3 mb-1 text-primary font-weight-bold">Ar {{ article.unitPrice}}</p>
+
+                                <div class="row justify-content-between">
+                                    <div class="col-md-4">
+                                        <p class="pl-3 text-muted font-weight-bold  ">
+                                            <small>{{ article.createdAt | ago }}</small> 
+                                        </p>
+                                    </div>
+                                    <div class="col-md-4 bg-dark btn-card">
+                                        <a href="{{ path('app_article_to_buy', {id: article.id}) }}" title="Acheter"><i class="fas fa-cart-plus"></i></a>
+                                        <a href="{{ path('app_article_to_buy', {id: article.id}) }}" class="text-white"><small>Acheter</small></a>
+                                           
+                                    </div>
+                                </div>
+                                
+                            </article>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="row">
+                    <div class="mt-4">
+                        {{ knp_pagination_render(articles) }}
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}  
+    {% endif %}      
+{% endblock%}
